@@ -22,9 +22,20 @@ ON o."ProductId" = p."Id"
 WHERE "OrderId" = "10251"
 
 -- Display the OrderID, Customer's Company Name and the employee's LastName for every order. All columns should be labeled clearly. Displays 16,789 records.
-SELECT o."id", c."CompanyName", e."LastName"
+SELECT o."id", c."CompanyName", employee."LastName"
 FROM "Order" as o
 JOIN "Customer" as c
 ON o."CustomerId" = c."Id"
-JOIN "Employee" as e
+JOIN "Employee" as employee 
 ON o."EmployeeId" = e."Id"
+
+
+-- Stretch
+
+--   Displays CategoryName and a new column called Count that shows how many products are in each category. Shows 8 records.
+
+SELECT "CategoryName", count(*) as "count"
+FROM "Categories"
+JOIN "Products"
+WHERE "Categories"."CategoryID" = "Products"."CategoryID"
+GROUP BY 1;

@@ -25,17 +25,22 @@ function findSteps(id) {
     .select('s.scheme_name', 'c.step_number', 'c.instructions', )
     .where({ scheme_id: id });
 
-}
+} // number arrays are returned by insert, because its usually returning integer
 
-function add(schemeData) {
-  return db("schemes")
+async function add(schemeData) {
+  const [id] = await db("schemes")
    .insert(schemeData)
+   return findById(id)
 }
 
-function update(changes, id) {
-  return db("schemes").where({ id }).update(changes);
+
+async function update(updates, id) {
+  const changes = await db("schemes").where({ id }).update(updates);
+  return changes ? findById(id) : undefined;
 }
 
-function remove(id) {
-  return db("schemes").where({ id }).del();
+async function remove(id) {
+  const deleted = await findById(id);
+  const changes = await db("schemes").where({ id }).del();
+  return changes ? deleted : undefined;
 }
